@@ -14,3 +14,4 @@ This folder is where The Forge tracks its own capabilities, learnings, and impro
 - `capability-log/` -- Record of capabilities evaluated, tested, and their status
 - `improvement-queue/` -- Backlog of proposed improvements awaiting review
 - `inbox-config.md` -- Email intake configuration (authorized senders, gating rules)
+
