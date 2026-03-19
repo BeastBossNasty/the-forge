@@ -27,10 +27,11 @@ budget_alert_threshold: 0.8  # Alert at 80% spend (default)
 3. Check budget fields:
    - If `budget_hours` exists, compare `budget_spent_hours` against it
    - If `budget_dollars` exists, compare `budget_spent_dollars` against it
-4. Determine status:
-   - **Green:** Under 80% of budget (or threshold) -- proceed normally
-   - **Yellow:** Between 80-100% of budget -- warn and ask for confirmation
-   - **Red:** Over 100% of budget -- block execution, require Jake's approval
+4. Determine status using `budget_alert_threshold` (default 0.8 if not set):
+   - **Green:** Spend ratio < threshold -- proceed normally
+   - **Yellow:** Spend ratio >= threshold and <= 1.0 -- warn and ask for confirmation
+   - **Red:** Spend ratio > 1.0 -- block execution, require Jake's approval
+   Example: if threshold is 0.6, yellow starts at 60%. If threshold is 0.9, yellow starts at 90%.
 5. If checking before a task execution:
    - Estimate the cost of the task
    - Add estimate to current spend

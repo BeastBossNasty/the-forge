@@ -19,7 +19,9 @@ When The Forge encounters a task that requires human intervention (logging into 
 ## Steps
 
 1. **Document the handoff:**
-   Create a handoff ticket in the relevant client's `tickets/` folder:
+   Create a handoff ticket:
+   - If client-scoped: save to `vault/_clients/[client]/tickets/`
+   - If Forge-scoped (no client, e.g., from self-improve or capability-sprint): save to `vault/_forge/improvement-queue/`
    ```yaml
    type: ticket
    status: open
@@ -27,6 +29,9 @@ When The Forge encounters a task that requires human intervention (logging into 
    importance: [based on urgency]
    tags: [human-handoff, ticket]
    assignee: "Jake"
+   # Include resume context so the blocked task can continue:
+   resume_skill: [skill that was running when handoff was triggered]
+   resume_context: [serialized state: client, step number, partial results, etc.]
    ```
 
 2. **Include clear instructions:**
@@ -49,8 +54,10 @@ When The Forge encounters a task that requires human intervention (logging into 
    - When Jake runs `/check-tickets [client]`, the ticket will surface as needing input
 
 5. **Resume after human action:**
-   - When the ticket's human step is checked off, The Forge can continue the remaining automated steps
-   - Check-tickets skill handles the resume logic
+   - When the ticket's human step is checked off, The Forge reads `resume_skill` and `resume_context` from the ticket frontmatter
+   - The Forge re-invokes the originating skill with the saved context, skipping already-completed steps
+   - If `resume_skill` or `resume_context` is missing, The Forge asks Jake what to do next instead of silently failing
+   - Jake can also manually trigger the next step by running the relevant command directly
 
 ## Handoff Ticket Format
 

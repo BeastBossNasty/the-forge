@@ -17,10 +17,12 @@ tags: [access-control, multi-user, config]
 - Can modify client data directly
 
 ### Operator
-- Can run read-only commands (briefing, reflect, check-tickets, weekly-report, performance-review)
-- Can view client data but not modify decisions or lessons
+- Can run analysis commands that do NOT auto-save to the vault (reflect only)
+- Can view client data but not modify decisions, lessons, or any vault files
+- Cannot run commands that auto-save (briefing, check-tickets, weekly-report, performance-review all write snapshots/anomalies)
 - Cannot approve escalated tasks
 - Cannot modify access control settings
+- Note: most "read-only" skills still auto-save snapshots and anomalies per vault rules. Operators are restricted to truly read-only skills (reflect) or must have auto-save disabled for their sessions.
 
 ### Viewer
 - Can view reports only
