@@ -99,7 +99,7 @@ When a decision outcome becomes clear (validated or failed), flag it in the outp
 
 ## MCP Servers
 
-Currently none configured. The `.mcp.json` file is a placeholder.
+**Gmail MCP:** Connected to `voltage.the.forge@gmail.com` (Forge dedicated inbox). Used by `/check-inbox` for email intake and task routing.
 
 **Future additions:**
 - Nexus (Claudesidian): when Obsidian is set up -- point it at `vault/`, install the Nexus plugin, update `.mcp.json` to add the Nexus server, and update this file to prefer Nexus MCP tools over raw file reads
@@ -130,6 +130,25 @@ Currently none configured. The `.mcp.json` file is a placeholder.
 - Downloaded MCPs and skills must be scanned before use
 - When in doubt, ask Jake
 
+## Email Intake (Phase 2)
+
+**Inbox:** voltage.the.forge@gmail.com
+**Command:** `/check-inbox` (manual) + scheduled polling every 15 minutes
+**Config:** `vault/_forge/inbox-config.md`
+
+### How It Works
+1. Poll inbox for unread emails
+2. Verify sender is authorized (Jake only, for now)
+3. Classify the task and match to a skill
+4. Route based on tier:
+   - **Auto-execute:** Read-only skills (briefing, reflect, check-tickets, weekly-report, performance-review) run immediately, draft reply with results
+   - **Approval required:** Write skills (save-decision, create-ticket, process-meeting) create a pending ticket, draft reply asking for approval
+   - **Escalate:** Live platform changes, money, credentials, or ambiguous requests create a high-priority ticket and flag for Jake
+5. All replies are DRAFTS. Jake reviews and sends manually.
+
+### Processing Log
+Daily log saved to `vault/_forge/learnings/YYYY-MM-DD-inbox-processing.md`
+
 ---
 
 ## Brand Voice (All Voltage Content)
@@ -141,9 +160,9 @@ Currently none configured. The `.mcp.json` file is a placeholder.
 
 ---
 
-## Future: Codex Review
+## Codex Review (Active)
 
-Placeholder: `codex review --uncommitted` will be added as a pre-commit step via a PreCommit hook once Codex CLI is installed. This uses a competing AI model as a second opinion to catch mistakes.
+Codex CLI is installed and runs `codex review --uncommitted` as a PreCommit hook. This uses OpenAI's model as a second opinion to catch mistakes before commits.
 
 ---
 
