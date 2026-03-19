@@ -108,8 +108,9 @@ When a decision outcome becomes clear (validated or failed), flag it in the outp
 - GGB: act_646330722224163
 - HABA: act_941543396233578
 
+**Nexus MCP (Obsidian):** Connected via `.mcp.json`. The Nexus plugin runs inside Obsidian and gives Claude Code semantic search, graph traversal, and structured queries over the vault. Prefer Nexus tools over raw file reads when available. Obsidian must be running for Nexus to work.
+
 **Future additions:**
-- Nexus (Claudesidian): when Obsidian is set up
 - Google Ads MCP: when API credentials are provisioned
 - Browser MCP: when Chrome automation is needed
 
