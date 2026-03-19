@@ -10,7 +10,8 @@
       "Read",
       "Write",
       "Edit",
-      "Glob"
+      "Glob",
+      "Bash(codex review:*)"
     ]
   }
 }

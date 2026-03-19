@@ -1,5 +1,15 @@
 {
   "hooks": {
+    "PreCommit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "codex review --uncommitted"
+          }
+        ]
+      }
+    ],
     "PostToolUse": [
       {
         "matcher": "Write|Edit",
