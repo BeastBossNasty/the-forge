@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bella Luna Toys | Case Study | Voltage Media</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700;800&family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#07101b;--bg-elevated:rgba(9,16,28,0.90);--bg-strong:rgba(13,22,37,0.96);
+  --accent-one:rgba(41,92,228,0.22);--accent-two:rgba(214,139,28,0.12);
+  --border:rgba(143,166,218,0.16);--text:#edf3ff;--muted:#98a6c2;
+  --blue:#2f6bff;--amber:#d68b1c;--violet:#6e63ff;--mint:#11946d;--rose:#c04e85;--slate:#d7e2ff;
+  --surface:rgba(17,28,47,0.9);--surface-med:rgba(18,30,52,0.94);--surface-strong:rgba(22,36,60,0.98);
+  --shadow:0 24px 70px rgba(0,0,0,0.42);--shadow-blue:0 16px 30px rgba(47,107,255,0.3);
+  --r-xl:28px;--r-lg:22px;--r-md:18px;--r-sm:16px;
+  --font-d:'Sora',sans-serif;--font-b:'Instrument Sans',sans-serif;--font-m:'JetBrains Mono',monospace;
+  --w:min(1240px,calc(100% - 48px));
+}
+html{scroll-behavior:smooth}
+body{color:var(--text);font-family:var(--font-b);line-height:1.65;overflow-x:hidden;background:#050a12}
+::selection{background:var(--blue);color:white}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:rgba(143,166,218,0.2);border-radius:3px}
+
+/* Circuit grid background */
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(47,107,255,0.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(47,107,255,0.04) 1px,transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse 80% 60% at 50% 30%,black 20%,transparent 70%)}
+body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* Tight ambient accents */
+.amb{position:fixed;border-radius:50%;filter:blur(100px);pointer-events:none;z-index:0}
+.amb-1{top:-200px;right:10%;width:500px;height:500px;background:rgba(47,107,255,0.10)}
+.amb-2{bottom:-250px;left:5%;width:400px;height:400px;background:rgba(110,99,255,0.06)}
+
+.stage{width:var(--w);margin:0 auto;position:relative;z-index:1}
+
+/* Glass surface */
+.glass{background:var(--bg-elevated);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid var(--border);box-shadow:var(--shadow);border-radius:var(--r-xl);padding:24px}
+
+/* Eyebrow */
+.ey{text-transform:uppercase;letter-spacing:0.18em;color:var(--muted);font-size:0.74rem;margin-bottom:10px;font-weight:600}
+
+/* Titles */
+h1,h2,h3,.stat{font-family:var(--font-d);letter-spacing:-0.04em;margin:0}
+h1{font-size:clamp(2.4rem,4vw,4.2rem);line-height:0.98;font-weight:800}
+h2{font-size:clamp(1.8rem,3vw,2.6rem);line-height:1.05;font-weight:700}
+h3{font-size:1.2rem;font-weight:700}
+
+.hi{color:var(--amber);text-shadow:0 0 8px rgba(214,139,28,0.22),0 0 18px rgba(214,139,28,0.1)}
+
+/* Brand lockup */
+.brand{display:flex;align-items:center;gap:0;font-family:var(--font-d);font-size:clamp(1.6rem,2.5vw,2rem);font-weight:800;letter-spacing:-0.12em;line-height:0.94}
+.brand-bolt{color:var(--amber);font-size:0.88em;text-shadow:0 10px 30px rgba(214,139,28,0.25);margin:0 -0.16em}
+.brand-sub{text-transform:uppercase;letter-spacing:0.18em;color:var(--muted);font-size:0.58rem;margin-top:2px}
+
+/* Badges */
+.badge{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;font-size:0.8rem;font-weight:500}
+.badge-blue{background:rgba(47,107,255,0.2);color:#aac2ff}
+.badge-amber{background:rgba(214,139,28,0.2);color:#f5cf8a}
+.badge-mint{background:rgba(17,148,109,0.2);color:#8fe2c5}
+.badge-rose{background:rgba(192,78,133,0.2);color:#f3adc9}
+.badge-violet{background:rgba(110,99,255,0.22);color:#c9c3ff}
+.badge-slate{background:rgba(215,226,255,0.12);color:var(--slate)}
+
+.pill{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;font-size:0.7rem;font-weight:600;
+  text-transform:uppercase;letter-spacing:0.08em;border:1px solid var(--border);background:var(--surface)}
+.pill .dot{width:6px;height:6px;border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+
+/* Metrics grid */
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;background:var(--border);border-radius:var(--r-lg);overflow:hidden}
+.metric{background:var(--surface);padding:1.75rem 1.5rem;text-align:center;transition:background 0.3s}
+.metric:hover{background:var(--surface-med)}
+.stat{font-family:var(--font-m);font-size:2.2rem;font-weight:600;line-height:1}
+.stat-label{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);margin-top:6px}
+.stat-change{font-size:0.72rem;color:var(--mint);font-weight:600;margin-top:4px}
+
+/* Cards */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;display:flex;flex-direction:column;gap:12px;transition:transform 0.3s,border-color 0.3s}
+.card:hover{transform:translateY(-3px);border-color:rgba(47,107,255,0.3)}
+.card-glow{position:relative;overflow:hidden}
+.card-glow::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--blue),var(--amber));opacity:0;transition:opacity 0.3s}
+.card-glow:hover::before{opacity:1}
+
+/* Progress bar */
+.prog{width:100%;height:8px;border-radius:999px;overflow:hidden;background:rgba(35,48,76,0.3)}
+.prog-fill{height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--blue),var(--violet))}
+
+/* Tabs */
+.tabs{display:flex;gap:2px;background:var(--surface);padding:4px;border-radius:var(--r-sm);width:fit-content;border:1px solid var(--border)}
+.tab{padding:0.55rem 1.25rem;border-radius:14px;font-size:0.82rem;font-weight:500;color:var(--muted);cursor:pointer;
+  transition:all 0.3s;border:none;background:none;font-family:var(--font-b)}
+.tab:hover{color:var(--text)}
+.tab.on{background:linear-gradient(135deg,#173f79,var(--blue));color:white;font-weight:600;box-shadow:var(--shadow-blue)}
+.tc{display:none}.tc.on{display:block;animation:fadeUp 0.4s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* Chart container */
+.chart-wrap{position:relative;height:320px;margin-top:12px}
+
+/* Comparison grid */
+.cmp{display:grid;grid-template-columns:1fr auto 1fr;gap:0;align-items:stretch}
+.era{border-radius:var(--r-xl);padding:2rem;border:1px solid var(--border);position:relative;overflow:hidden}
+.era.before{background:var(--surface)}
+.era.after{background:var(--surface-med);border-color:rgba(47,107,255,0.3);box-shadow:0 0 60px rgba(47,107,255,0.12)}
+.era.after::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--amber))}
+.era-row{display:flex;justify-content:space-between;align-items:baseline;padding:0.7rem 0;border-bottom:1px solid var(--border)}
+.era-row:last-child{border:none}
+.era-row .name{font-size:0.85rem;color:var(--muted)}
+.era-row .val{font-family:var(--font-m);font-size:1rem;font-weight:600}
+.era.after .val{color:var(--blue)}
+.vs{display:flex;align-items:center;justify-content:center;padding:0 1.25rem}
+.vs-dot{width:44px;height:44px;border-radius:50%;background:var(--surface);border:2px solid var(--blue);display:flex;
+  align-items:center;justify-content:center;font-family:var(--font-d);font-size:0.9rem;font-style:italic;color:var(--blue)}
+
+/* Impact cards */
+.impact{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.impact .card .ba{display:grid;grid-template-columns:1fr auto 1fr;gap:0.75rem;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);align-items:center}
+.ba-v{font-family:var(--font-m);font-size:0.9rem;font-weight:600}
+.ba-l{font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em}
+.ba-arr{color:var(--mint);font-size:1.2rem}
+
+/* Timeline */
+.tl{position:relative;padding-left:3rem;margin-top:1.5rem}
+.tl::before{content:'';position:absolute;left:0.7rem;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--blue),var(--violet),var(--mint))}
+.tl-i{position:relative;padding-bottom:2.25rem}
+.tl-i::before{content:'';position:absolute;left:-2.4rem;top:0.2rem;width:11px;height:11px;border-radius:50%;background:var(--blue);border:3px solid var(--bg);z-index:1}
+.tl-date{font-family:var(--font-m);font-size:0.72rem;color:var(--blue);font-weight:600;margin-bottom:0.2rem}
+
+/* Recs */
+.rec{display:flex;gap:1rem;padding:1.25rem 1.5rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);transition:border-color 0.3s}
+.rec:hover{border-color:rgba(47,107,255,0.3)}
+.rec-n{font-family:var(--font-m);font-size:0.8rem;color:var(--blue);font-weight:600;flex-shrink:0;width:28px;height:28px;
+  display:flex;align-items:center;justify-content:center;background:rgba(47,107,255,0.15);border-radius:8px}
+
+/* Sections */
+.sec{padding:5rem 0;position:relative}
+.sec::before{content:'';position:absolute;top:0;left:5%;right:5%;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
+
+/* Reveal */
+.rv{opacity:0;transform:translateY(24px);transition:opacity 0.7s,transform 0.7s}.rv.vis{opacity:1;transform:translateY(0)}
+.rv-1{transition-delay:0.1s}.rv-2{transition-delay:0.2s}.rv-3{transition-delay:0.3s}.rv-4{transition-delay:0.4s}
+
+/* Scroll hint */
+.scroll-h{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;
+  align-items:center;gap:0.4rem;color:var(--muted);font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;animation:bob 2s infinite}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+footer{padding:4rem 0;text-align:center}
+footer .badges{display:flex;justify-content:center;gap:1rem;margin-top:1rem;flex-wrap:wrap}
+
+/* Export button */
+.export-btn{position:fixed;bottom:2rem;right:2rem;z-index:100;display:flex;align-items:center;gap:8px;
+  padding:12px 20px;border:none;border-radius:999px;font-family:var(--font-b);font-size:0.85rem;font-weight:600;
+  color:white;background:linear-gradient(135deg,#173f79,var(--blue));box-shadow:var(--shadow-blue);cursor:pointer;
+  transition:transform 0.2s,box-shadow 0.2s}
+.export-btn:hover{transform:translateY(-2px);box-shadow:0 20px 40px rgba(47,107,255,0.4)}
+.export-btn:active{transform:translateY(0)}
+
+@media print{
+  .export-btn,.scroll-h,.amb,.pill:has(.dot){display:none!important}
+  body{background:#050a12!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body::before,body::after{display:none!important}
+  .sec{padding:2rem 0;page-break-inside:avoid}
+  .sec::before{display:none}
+  .glass{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(13,22,37,0.98)!important}
+  .tabs,[data-ui="interactive"]{display:none!important}
+  .tc{display:block!important;margin-bottom:1.5rem}
+  .chart-wrap{height:260px!important}
+  .cmp{page-break-inside:avoid}
+  .impact{page-break-inside:avoid}
+  .tl{page-break-inside:avoid}
+  h1{font-size:2.4rem!important}
+  h2{font-size:1.8rem!important}
+}
+
+@media(max-width:900px){.cmp{grid-template-columns:1fr;gap:12px}.vs{padding:8px 0}.impact{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,1fr)}.export-btn{bottom:1rem;right:1rem;padding:10px 16px;font-size:0.8rem}}
+</style>
+</head>
+<body>
+<div class="amb amb-1"></div>
+<div class="amb amb-2"></div>
+
+<!-- === HERO === -->
+<section class="sec" style="min-height:100vh;display:flex;align-items:center;padding-top:3rem">
+<div class="stage">
+  <div class="rv" style="margin-bottom:2rem">
+    <div class="brand"><span>VOLT</span><span class="brand-bolt">&#9889;</span><span>GE</span></div>
+    <div class="brand-sub">Performance Marketing</div>
+  </div>
+  <div class="pill rv rv-1" style="margin-bottom:1.5rem"><span class="dot" style="background:var(--mint)"></span> Live Case Study</div>
+  <h1 class="rv rv-2" style="max-width:14ch;margin-bottom:0.75rem">Bella Luna Toys</h1>
+  <h2 class="rv rv-3" style="font-weight:400;color:var(--muted);font-size:clamp(1.1rem,2vw,1.5rem);margin-bottom:2.5rem;max-width:600px">
+    How campaign consolidation and momentum-based scaling turned a fragmented ad account into a <span class="hi">$1.15M revenue engine</span>.</h2>
+
+  <div class="metrics rv rv-4">
+    <div class="metric"><span class="stat" data-count="769" data-prefix="$" data-suffix="K" style="color:var(--blue)">$0K</span><div class="stat-label">Revenue Under Voltage</div><div class="stat-change">10 months</div></div>
+    <div class="metric"><span class="stat" data-count="15.2" data-suffix="x" data-decimals="1" style="color:var(--amber)">0x</span><div class="stat-label">Blended ROAS</div><div class="stat-change">vs 10.6x before</div></div>
+    <div class="metric"><span class="stat" data-count="4743" style="color:var(--violet)">0</span><div class="stat-label">Purchases Driven</div><div class="stat-change">in 10 months</div></div>
+    <div class="metric"><span class="stat" data-count="21.76" data-suffix="x" data-decimals="2" style="color:var(--mint)">0x</span><div class="stat-label">Peak ROAS</div><div class="stat-change">Feb 2026 record</div></div>
+  </div>
+</div>
+<div class="scroll-h"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>Scroll to explore</div>
+
+<!-- Export button -->
+<button class="export-btn" onclick="exportPDF()" data-ui="interactive">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+  Export PDF
+</button>
+</section>
+
+<!-- === BEFORE VS AFTER === -->
+<section class="sec">
+<div class="stage">
+  <p class="ey rv">The Transformation</p>
+  <h2 class="rv">Two eras. <span class="hi">One account.</span></h2>
+  <p class="rv" style="color:var(--muted);max-width:560px;margin-bottom:2.5rem;font-size:1.05rem">Same product, same audience, same platform. The only variable was the strategy.</p>
+
+  <div class="cmp rv">
+    <div class="era before">
+      <p class="ey" style="margin-bottom:2px">Before Voltage</p>
+      <h3 style="margin-bottom:2px">Mar 2024 -- May 2025</h3>
+      <p style="font-size:0.8rem;color:var(--muted);margin-bottom:1.25rem">15 months | Previous management</p>
+      <div class="era-row"><span class="name">Total Revenue</span><span class="val">$433,421</span></div>
+      <div class="era-row"><span class="name">Total Spend</span><span class="val">$42,396</span></div>
+      <div class="era-row"><span class="name">Blended ROAS</span><span class="val">10.6x</span></div>
+      <div class="era-row"><span class="name">Avg Monthly Revenue</span><span class="val">$28,895</span></div>
+      <div class="era-row"><span class="name">Avg CPA</span><span class="val">$14.15</span></div>
+      <div class="era-row"><span class="name">Active Campaigns</span><span class="val">70+</span></div>
+    </div>
+    <div class="vs"><div class="vs-dot"><em>vs</em></div></div>
+    <div class="era after">
+      <p class="ey" style="color:var(--blue);margin-bottom:2px">After Voltage</p>
+      <h3 style="margin-bottom:2px">Jun 2025 -- Mar 2026</h3>
+      <p style="font-size:0.8rem;color:var(--muted);margin-bottom:1.25rem">10 months | Voltage Media</p>
+      <div class="era-row"><span class="name">Total Revenue</span><span class="val">$769,220</span></div>
+      <div class="era-row"><span class="name">Total Spend</span><span class="val">$51,421</span></div>
+      <div class="era-row"><span class="name">Blended ROAS</span><span class="val">15.2x</span></div>
+      <div class="era-row"><span class="name">Avg Monthly Revenue</span><span class="val">$76,922</span></div>
+      <div class="era-row"><span class="name">Avg CPA</span><span class="val">$10.85</span></div>
+      <div class="era-row"><span class="name">Active Campaigns</span><span class="val">2</span></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- === STORY === -->
+<section class="sec">
+<div class="stage">
+  <p class="ey rv">The Story</p>
+  <h2 class="rv" style="margin-bottom:1.5rem">From fragmented to <span class="hi">elite.</span></h2>
+  <div class="glass rv" style="padding:2rem;margin-bottom:2rem">
+    <h3 style="margin-bottom:0.75rem">Before Voltage</h3>
+    <p style="color:var(--muted);font-size:0.95rem">
+      Bella Luna's Meta Ads account was running 70+ fragmented campaigns with inconsistent structure and no unified strategy. While the product resonated with audiences (ROAS occasionally spiked above 15x), performance was volatile. The account hit its lowest point in September-October 2024 at 6-8x ROAS with CPAs above $20. Monthly revenue averaged $28,895 with no clear scaling path.
+    </p>
+  </div>
+  <div class="glass rv" style="padding:2rem;border-color:rgba(47,107,255,0.3)">
+    <h3 style="margin-bottom:0.75rem;color:var(--blue)">After Voltage</h3>
+    <p style="color:var(--muted);font-size:0.95rem;margin-bottom:1rem">
+      Voltage implemented a three-phase transformation. Consolidation from 70+ campaigns to 2. Momentum-based scaling with gradient budget adjustments tied to ROAS. Disciplined creative rotation with UGC content. Average monthly revenue increased from $28,895 to $76,922 while blended ROAS improved from 10.6x to 15.2x.
+    </p>
+    <div style="background:linear-gradient(135deg,#173f79,var(--blue));border-radius:var(--r-md);padding:1.25rem 1.5rem;text-align:center">
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.8)">Current: March 2026 (18 days)</p>
+      <p style="font-family:var(--font-m);font-size:1.1rem;color:white;font-weight:600;margin-top:4px">
+        18.18x ROAS &nbsp;|&nbsp; $135,316 Revenue &nbsp;|&nbsp; 891 Purchases &nbsp;|&nbsp; $8.35 CPA
+      </p>
+      <p style="font-size:0.8rem;color:rgba(255,255,255,0.6);margin-top:6px">Q1 2026 has already surpassed all of 2025's total revenue ($419K vs $311K)</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- === CHARTS === -->
+<section class="sec">
+<div class="stage">
+  <p class="ey rv">Performance Data</p>
+  <h2 class="rv" style="margin-bottom:0.5rem">The numbers.</h2>
+  <p class="rv" style="color:var(--muted);margin-bottom:2rem">25 months of Meta Ads data. Hover any point for details.</p>
+
+  <div class="tabs rv">
+    <button class="tab on" data-tab="roas">ROAS</button>
+    <button class="tab" data-tab="rev">Revenue</button>
+    <button class="tab" data-tab="qtr">Quarterly</button>
+    <button class="tab" data-tab="eff">Efficiency</button>
+  </div>
+
+  <div class="tc on" id="t-roas"><div class="glass rv"><h3>Monthly ROAS</h3><p style="font-size:0.78rem;color:var(--muted);margin-bottom:4px">Gray = Before | Colored = After | Dashed = 10x Healthy Threshold</p><div class="chart-wrap"><canvas id="c1"></canvas></div></div></div>
+  <div class="tc" id="t-rev"><div class="glass"><h3>Revenue vs Spend</h3><p style="font-size:0.78rem;color:var(--muted);margin-bottom:4px">Bars = Spend | Line = Revenue</p><div class="chart-wrap"><canvas id="c2"></canvas></div></div></div>
+  <div class="tc" id="t-qtr"><div class="glass"><h3>Quarterly Revenue</h3><p style="font-size:0.78rem;color:var(--muted);margin-bottom:4px">Gray = Before | Blue = After</p><div class="chart-wrap"><canvas id="c3"></canvas></div></div></div>
+  <div class="tc" id="t-eff"><div class="glass"><h3>CPC & CTR Trends</h3><p style="font-size:0.78rem;color:var(--muted);margin-bottom:4px">CPC rising + CTR falling = narrowing to high-value converters</p><div class="chart-wrap"><canvas id="c4"></canvas></div></div></div>
+</div>
+</section>
+
+<!-- === WHAT CHANGED === -->
+<section class="sec">
+<div class="stage">
+  <p class="ey rv">What We Did</p>
+  <h2 class="rv" style="margin-bottom:2rem">Four strategic shifts.</h2>
+  <div class="impact">
+    <div class="card card-glow rv">
+      <span class="badge badge-blue" style="width:fit-content">&#9638; Structure</span>
+      <h3>Campaign Consolidation</h3>
+      <p style="font-size:0.85rem;color:var(--muted)">Collapsed 70+ fragmented campaigns into 2 focused structures. The algorithm gets more data per campaign, learns faster, optimizes better.</p>
+      <div class="ba"><div><div class="ba-v">70+</div><div class="ba-l">Before</div></div><div class="ba-arr">&#8594;</div><div><div class="ba-v" style="color:var(--mint)">2</div><div class="ba-l">After</div></div></div>
+    </div>
+    <div class="card card-glow rv rv-1">
+      <span class="badge badge-mint" style="width:fit-content">&#9650; Scaling</span>
+      <h3>Gradient Budget Curve</h3>
+      <p style="font-size:0.85rem;color:var(--muted)">Performance-proportional scaling. At 10x ROAS, scale 5%. At 20x, scale 20%. Linear interpolation. Eliminates CPA spikes from over-scaling.</p>
+      <div class="ba"><div><div class="ba-v">Ad hoc</div><div class="ba-l">Before</div></div><div class="ba-arr">&#8594;</div><div><div class="ba-v" style="color:var(--mint)">5-20%</div><div class="ba-l">Gradient</div></div></div>
+    </div>
+    <div class="card card-glow rv rv-2">
+      <span class="badge badge-violet" style="width:fit-content">&#9733; Creative</span>
+      <h3>UGC-First Strategy</h3>
+      <p style="font-size:0.85rem;color:var(--muted)">UGC outperforms polished brand content. Data-driven rotation: replace when CTR drops 30% from peak or frequency exceeds 3x.</p>
+      <div class="ba"><div><div class="ba-v">Polished</div><div class="ba-l">Before</div></div><div class="ba-arr">&#8594;</div><div><div class="ba-v" style="color:var(--mint)">UGC</div><div class="ba-l">Data-driven</div></div></div>
+    </div>
+    <div class="card card-glow rv rv-3">
+      <span class="badge badge-amber" style="width:fit-content">&#9881; Framework</span>
+      <h3>Rubric-Based Decisions</h3>
+      <p style="font-size:0.85rem;color:var(--muted)">Every ad set scored daily. Three tiers (Healthy/Caution/Floor) with automated actions. No guesswork. Pure data.</p>
+      <div class="ba"><div><div class="ba-v">Reactive</div><div class="ba-l">Before</div></div><div class="ba-arr">&#8594;</div><div><div class="ba-v" style="color:var(--mint)">Rubric</div><div class="ba-l">Systematic</div></div></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- === TIMELINE === -->
+<section class="sec">
+<div class="stage">
+  <p class="ey rv">Key Decisions</p>
+  <h2 class="rv" style="margin-bottom:1.5rem">The moves that built this.</h2>
+  <div class="tl rv">
+    <div class="tl-i"><div class="tl-date">NOV 2024</div><h3 style="font-size:1rem">Campaign Consolidation</h3><p style="font-size:0.85rem;color:var(--muted)">Consolidated 70+ campaigns to 2. The foundational shift.</p><span class="badge badge-mint" style="font-size:0.65rem;margin-top:6px">Improved (0.95)</span></div>
+    <div class="tl-i"><div class="tl-date">OCT 2025</div><h3 style="font-size:1rem">Q4 Aggressive Scale-Up</h3><p style="font-size:0.85rem;color:var(--muted)">$2K/mo to $9-10K/mo. November hit 15.13x ROAS.</p><span class="badge badge-mint" style="font-size:0.65rem;margin-top:6px">Improved (0.90)</span></div>
+    <div class="tl-i"><div class="tl-date">FEB 2026</div><h3 style="font-size:1rem">Post-Holiday Double Down</h3><p style="font-size:0.85rem;color:var(--muted)">Maintained spend. February produced 21.76x ROAS. Best month ever.</p><span class="badge badge-mint" style="font-size:0.65rem;margin-top:6px">Improved (0.85)</span></div>
+    <div class="tl-i"><div class="tl-date">MAR 2026</div><h3 style="font-size:1rem">Sustained Momentum</h3><p style="font-size:0.85rem;color:var(--muted)">On pace for ~$233K revenue at 18x+ ROAS. Q1 surpassed all of 2025.</p><span class="badge badge-blue" style="font-size:0.65rem;margin-top:6px">On Track</span></div>
+  </div>
+</div>
+</section>
+
+<!-- === RECS === -->
+<section class="sec">
+<div class="stage">
+  <p class="ey rv">Looking Ahead</p>
+  <h2 class="rv" style="margin-bottom:1.5rem">What comes next.</h2>
+  <div style="display:flex;flex-direction:column;gap:12px" class="rv">
+    <div class="rec"><div class="rec-n">01</div><div><h3 style="font-size:0.95rem;margin-bottom:3px">Maintain Current Posture</h3><p style="font-size:0.85rem;color:var(--muted)">18x+ ROAS. No reason to pull back until performance signals otherwise.</p></div></div>
+    <div class="rec"><div class="rec-n">02</div><div><h3 style="font-size:0.95rem;margin-bottom:3px">Creative Refresh Pipeline</h3><p style="font-size:0.85rem;color:var(--muted)">Frequency at 2.82 approaching 3.0x cap. CTR decline confirms fatigue.</p></div></div>
+    <div class="rec"><div class="rec-n">03</div><div><h3 style="font-size:0.95rem;margin-bottom:3px">Monitor CPC/CTR Divergence</h3><p style="font-size:0.85rem;color:var(--muted)">CPC up 48%, CTR down 51%. Algorithm compensating with better conversions.</p></div></div>
+    <div class="rec"><div class="rec-n">04</div><div><h3 style="font-size:0.95rem;margin-bottom:3px">Q2 Seasonal Planning</h3><p style="font-size:0.85rem;color:var(--muted)">Historical mid-year softness. Consolidated structure should handle it better.</p></div></div>
+    <div class="rec"><div class="rec-n">05</div><div><h3 style="font-size:0.95rem;margin-bottom:3px">AI Video Creative</h3><p style="font-size:0.85rem;color:var(--muted)">Next frontier for scaling creative production. Exploring with Kling.</p></div></div>
+  </div>
+</div>
+</section>
+
+<!-- === FOOTER === -->
+<footer>
+<div class="stage">
+  <div class="brand" style="justify-content:center;margin-bottom:4px"><span>VOLT</span><span class="brand-bolt">&#9889;</span><span>GE</span></div>
+  <div class="brand-sub" style="text-align:center">Performance Marketing</div>
+  <p style="color:var(--muted);font-size:0.9rem;margin-top:12px">20+ years of performance marketing expertise</p>
+  <div class="badges">
+    <span class="pill">Google Premier Partner (Top 3%)</span>
+    <span class="pill">Meta Business Partner</span>
+    <span class="pill">Microsoft Advertising Partner</span>
+  </div>
+  <p style="color:var(--muted);font-size:0.72rem;margin-top:1.5rem">Confidential. Prepared March 2026. Data sourced from Meta Ads Manager.</p>
+</div>
+</footer>
+
+<script>
+// Export PDF
+function exportPDF(){
+  // Show all tab content for print
+  document.querySelectorAll('.tc').forEach(c=>c.classList.add('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  // Trigger print dialog (Save as PDF option)
+  setTimeout(()=>{
+    window.print();
+    // Restore tabs after print
+    setTimeout(()=>{
+      document.querySelectorAll('.tc').forEach(c=>c.classList.remove('on'));
+      document.querySelector('.tc').classList.add('on');
+      document.querySelector('.tab').classList.add('on');
+    },500);
+  },300);
+}
+
+// Counters
+function animC(){document.querySelectorAll('[data-count]').forEach(el=>{if(el.dataset.a)return;const r=el.getBoundingClientRect();if(r.top>window.innerHeight)return;el.dataset.a='1';const t=parseFloat(el.dataset.count),p=el.dataset.prefix||'',s=el.dataset.suffix||'',d=parseInt(el.dataset.decimals||'0'),dur=2000,st=performance.now();function u(n){const e=Math.min((n-st)/dur,1),v=t*(1-Math.pow(1-e,3));el.textContent=p+v.toFixed(d).replace(/\B(?=(\d{3})+(?!\d))/g,',')+s;if(e<1)requestAnimationFrame(u)}requestAnimationFrame(u)})}
+// Reveal
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('vis');animC()}})},{threshold:0.1});
+document.querySelectorAll('.rv').forEach(e=>obs.observe(e));
+// Tabs
+document.querySelectorAll('.tab').forEach(t=>{t.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));document.querySelectorAll('.tc').forEach(x=>x.classList.remove('on'));t.classList.add('on');document.getElementById('t-'+t.dataset.tab).classList.add('on')})});
+
+// Charts
+Chart.defaults.color='#98a6c2';Chart.defaults.borderColor='rgba(143,166,218,0.16)';Chart.defaults.font.family="'Instrument Sans',sans-serif";
+const mo=['Mar 24','Apr 24','May 24','Jun 24','Jul 24','Aug 24','Sep 24','Oct 24','Nov 24','Dec 24','Jan 25','Feb 25','Mar 25','Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26','Feb 26','Mar 26'];
+const rd=[11.37,14.79,16.82,11.85,13.95,17.50,7.67,6.17,10.99,11.00,9.06,9.15,9.57,7.09,8.27,7.88,10.71,11.00,11.80,10.20,15.13,11.53,11.80,21.76,18.18];
+const sd=[6061,2360,2009,2002,2175,2111,1802,3760,5925,4954,1221,840,2997,2436,1756,1496,943,1953,2219,2458,9005,10293,5557,10055,7442];
+const rv=[68913,34903,33796,23732,30347,36938,13823,23211,65142,54501,11063,7689,28669,17279,14512,11782,10094,21484,26177,25078,136260,118647,65567,218815,135316];
+const cd=[0.30,0.37,0.31,0.26,0.28,0.27,0.29,0.34,0.30,0.30,0.17,0.17,0.34,0.27,0.34,0.46,0.34,0.27,0.29,0.35,0.48,0.41,0.44,0.52,0.65];
+const ct=[4.28,3.37,3.57,3.37,3.25,3.85,3.88,4.12,4.33,4.66,3.77,3.57,4.35,3.92,3.64,3.18,3.64,5.10,4.71,4.88,5.88,5.85,3.89,2.29,1.91];
+const V=15;
+const tt={backgroundColor:'rgba(13,22,37,0.96)',titleColor:'#edf3ff',bodyColor:'#98a6c2',borderColor:'rgba(143,166,218,0.16)',borderWidth:1,padding:12,cornerRadius:8};
+new Chart(document.getElementById('c1'),{type:'bar',data:{labels:mo,datasets:[{data:rd,backgroundColor:rd.map((v,i)=>i<V?(v>=10?'rgba(152,166,194,0.4)':'rgba(152,166,194,0.2)'):(v>=10?'rgba(47,107,255,0.7)':'rgba(214,139,28,0.6)')),borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...tt,callbacks:{title:c=>`${c[0].label}${c[0].dataIndex<V?' (Before)':' (Voltage)'}`,label:c=>`ROAS: ${c.raw.toFixed(2)}x`}}},scales:{y:{beginAtZero:true,max:25,grid:{color:'rgba(143,166,218,0.08)'},ticks:{callback:v=>v+'x'}},x:{grid:{display:false},ticks:{maxRotation:45,font:{size:8}}}}}});
+new Chart(document.getElementById('c2'),{type:'bar',data:{labels:mo,datasets:[{type:'bar',label:'Spend',data:sd,backgroundColor:sd.map((v,i)=>i<V?'rgba(152,166,194,0.25)':'rgba(47,107,255,0.4)'),borderRadius:4,yAxisID:'y'},{type:'line',label:'Revenue',data:rv,borderColor:'#d68b1c',backgroundColor:'rgba(214,139,28,0.08)',fill:true,tension:0.3,pointRadius:3,pointBackgroundColor:rv.map((v,i)=>i<V?'#98a6c2':'#d68b1c'),borderWidth:2,yAxisID:'y1'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{boxWidth:12,padding:16}},tooltip:{...tt,mode:'index',intersect:false,callbacks:{label:c=>`${c.dataset.label}: $${(c.raw/1000).toFixed(1)}K`}}},scales:{y:{beginAtZero:true,position:'left',grid:{color:'rgba(143,166,218,0.08)'},ticks:{callback:v=>'$'+(v/1000)+'K'}},y1:{beginAtZero:true,position:'right',grid:{display:false},ticks:{callback:v=>'$'+(v/1000)+'K'}},x:{grid:{display:false},ticks:{maxRotation:45,font:{size:8}}}}}});
+new Chart(document.getElementById('c3'),{type:'bar',data:{labels:['Q2 24','Q3 24','Q4 24','Q1 25','Q2 25','Q3 25','Q4 25','Q1 26'],datasets:[{data:[92431,81108,142854,47421,43573,57755,279985,419699],backgroundColor:[...Array(5).fill('rgba(152,166,194,0.35)'),...Array(3).fill('rgba(47,107,255,0.7)')],borderRadius:6,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...tt,callbacks:{label:c=>`Revenue: $${(c.raw/1000).toFixed(0)}K`}}},scales:{y:{beginAtZero:true,grid:{color:'rgba(143,166,218,0.08)'},ticks:{callback:v=>'$'+(v/1000)+'K'}},x:{grid:{display:false}}}}});
+new Chart(document.getElementById('c4'),{type:'line',data:{labels:mo,datasets:[{label:'CPC ($)',data:cd,borderColor:'#2f6bff',backgroundColor:'rgba(47,107,255,0.06)',fill:true,tension:0.3,pointRadius:3,yAxisID:'y'},{label:'CTR (%)',data:ct,borderColor:'#11946d',backgroundColor:'rgba(17,148,109,0.06)',fill:true,tension:0.3,pointRadius:3,yAxisID:'y1'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{boxWidth:12,padding:16}},tooltip:{...tt,mode:'index',intersect:false}},scales:{y:{beginAtZero:true,position:'left',grid:{color:'rgba(143,166,218,0.08)'},ticks:{callback:v=>'$'+v.toFixed(2)}},y1:{beginAtZero:true,position:'right',grid:{display:false},ticks:{callback:v=>v+'%'}},x:{grid:{display:false},ticks:{maxRotation:45,font:{size:8}}}}}});
+</script>
+</body>
+</html>
