@@ -18,7 +18,7 @@ def load_env():
                 env[key.strip()] = val.strip()
     return env
 
-def send_email(to_addr, subject, body, reply_to_message_id=None, thread_subject=None):
+def send_email(to_addr, subject, body, reply_to_message_id=None):
     env = load_env()
     sender = env.get("FORGE_EMAIL", "voltage.the.forge@gmail.com")
     password = env.get("FORGE_APP_PASSWORD", "")

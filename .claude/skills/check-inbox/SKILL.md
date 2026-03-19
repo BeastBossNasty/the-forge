@@ -80,6 +80,9 @@ List each email and what was done.
 ### Emails Sent
 List reply emails sent with recipient and subject.
 
+## Known Limitations
+- **Mark as read:** The Gmail MCP does not have a "mark as read" tool. Processed emails stay unread in Gmail. To avoid reprocessing, the skill checks the processing log for today and skips emails whose message ID was already logged. Future fix: add Gmail label "processed" via Gmail API or MCP update.
+
 ## Rules
 - All replies are SENT directly via scripts/send_email.py. No drafts.
 - Never auto-execute anything that modifies live ad platforms.

@@ -10,6 +10,12 @@ client_slug="$1"
 shift
 client_name="$*"
 
+# Validate slug: only lowercase letters, numbers, and hyphens
+if [[ ! "$client_slug" =~ ^[a-z0-9][a-z0-9-]*$ ]]; then
+  echo "Invalid client slug: '$client_slug'. Use only lowercase letters, numbers, and hyphens." >&2
+  exit 1
+fi
+
 script_dir="$(cd "$(dirname "$0")" && pwd)"
 root_dir="$(cd "$script_dir/.." && pwd)"
 template_dir="$root_dir/vault/_templates/client"
@@ -30,8 +36,8 @@ cp -R "$template_dir" "$target_dir"
 # Remove template files from the live client folder
 find "$target_dir" -type f -name "*-template.md" -delete
 
-# Substitute placeholder names
+# Substitute placeholder names (use | delimiter to avoid conflicts with special chars)
 find "$target_dir" -type f -name "*.md" -exec \
-  sed -i "s/\[client-name\]/$client_slug/g; s/\[Client Name\]/$client_name/g" {} +
+  sed -i "s|\[client-name\]|$client_slug|g; s|\[Client Name\]|$client_name|g" {} +
 
 echo "Created client workspace at $target_dir"
