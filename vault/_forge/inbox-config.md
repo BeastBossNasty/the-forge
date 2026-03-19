@@ -14,7 +14,7 @@ tags: [inbox, email, config, phase-2]
 
 ## Authorized Senders
 Only process emails from these addresses. All others are ignored and flagged.
-- jake (primary user -- match any email from Jake's known addresses)
+- jakeb11@gmail.com (Jake Brown -- primary user)
 
 ## Task Classification
 

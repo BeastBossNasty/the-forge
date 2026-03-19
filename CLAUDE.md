@@ -144,7 +144,7 @@ When a decision outcome becomes clear (validated or failed), flag it in the outp
    - **Auto-execute:** Read-only skills (briefing, reflect, check-tickets, weekly-report, performance-review) run immediately, draft reply with results
    - **Approval required:** Write skills (save-decision, create-ticket, process-meeting) create a pending ticket, draft reply asking for approval
    - **Escalate:** Live platform changes, money, credentials, or ambiguous requests create a high-priority ticket and flag for Jake
-5. All replies are DRAFTS. Jake reviews and sends manually.
+5. All replies are sent directly via `scripts/send_email.py`. No drafts.
 
 ### Processing Log
 Daily log saved to `vault/_forge/learnings/YYYY-MM-DD-inbox-processing.md`

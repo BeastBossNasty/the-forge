@@ -11,7 +11,8 @@
       "Write",
       "Edit",
       "Glob",
-      "Bash(codex review:*)"
+      "Bash(codex review:*)",
+      "Bash(python scripts/send_email.py:*)"
     ]
   }
 }
