@@ -42,7 +42,9 @@ vault/_clients/[client]/meetings/
 
 ## Phase 2: Transcript Processor Skill
 
-### New skill: `/process-transcript`
+### Extend existing `/process-meeting` skill (not a new skill)
+
+Don't create a duplicate. Add a Krisp input mode to the existing `/process-meeting` skill. The processor normalizes Krisp JSON into the same format process-meeting already handles, then runs the existing extraction logic.
 
 **Input:** Raw Krisp transcript JSON/text
 **Processing:**
@@ -51,7 +53,7 @@ vault/_clients/[client]/meetings/
    - Attendees (map to vault stakeholders)
    - Duration
    - Key topics discussed
-   - Decisions made (trigger `/save-decision` for each)
+   - Potential decisions (FLAG for Jake to review -- never auto-save decisions per vault rules)
    - Action items with owners and due dates (offer to create tickets)
    - Client sentiment / concerns raised
    - Follow-up items mentioned
@@ -66,7 +68,7 @@ The processor needs to figure out which client a call belongs to. Options:
 - Match attendee emails against `stakeholders/` directory
 - Match calendar event title (if Krisp includes it)
 - Match keywords in transcript (company names, product names, account references)
-- Fall back to asking Jake if ambiguous
+- If ambiguous: create a ticket tagged `krisp-unclassified` and skip (do NOT block the scheduled task waiting for human input)
 
 ### Frontmatter for meeting notes
 ```yaml
@@ -101,10 +103,10 @@ krisp_meeting_id: [for dedup]
      c. Log to `vault/_forge/learnings/YYYY-MM-DD-krisp-ingest.md`
   4. Update last poll timestamp
 
-### Credentials
-- Store Krisp API key in `.env` (already gitignored)
-- Add `KRISP_API_KEY=` placeholder
-- Add `KRISP_LAST_POLL=` for tracking
+### Credentials and State
+- Store Krisp API key in `.env` as `KRISP_API_KEY=` (already gitignored)
+- Store last poll timestamp in `vault/_forge/krisp-config.md` (NOT in .env -- .env is for secrets, not mutable state)
+- Store processed Krisp meeting IDs in `vault/_forge/learnings/` logs (same dedup pattern as inbox -- prevents reprocessing on crash/restart)
 
 ## Phase 4: Searchable Context Layer
 
@@ -167,8 +169,22 @@ Over time, the system builds implicit profiles:
 - How far back can we pull historical transcripts? (seeding the vault like we did with Meta data)
 - Do we need speaker diarization (who said what) or is a flat transcript sufficient?
 
+## Transcript Size Management
+- A 1-hour call generates ~10k-15k words of raw transcript
+- Store full raw transcripts for calls from the last 90 days
+- After 90 days, archive raw transcripts to a compressed summary (key quotes, decisions, action items only)
+- Structured meeting notes are kept permanently (small, high-value)
+- Consider: if vault exceeds 500 transcripts, move oldest raw files to an `archive/` subfolder
+
+## Fallback Plan (if Krisp API unavailable)
+If Krisp doesn't have a public API or requires enterprise:
+- **Fallback A (file watcher):** Configure Krisp to save transcripts to a local folder. Scheduled task watches folder for new files.
+- **Fallback B (email forwarding):** Configure Krisp to email summaries to voltage.the.forge@gmail.com. Existing inbox pipeline handles classification.
+- **Fallback C (manual):** AMs paste transcripts directly into Cowork. Process-meeting skill handles extraction.
+
+All fallbacks feed into the same process-meeting skill. Only the intake path changes.
+
 ## Dependencies
-- Krisp API access (may require account upgrade)
+- Krisp API access (may require account upgrade) -- research first before building
 - Nexus MCP working (for semantic search over transcripts)
 - Obsidian running (for Nexus)
-# review target

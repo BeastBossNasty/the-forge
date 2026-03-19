@@ -6,3 +6,11 @@ credentials.json
 *.key
 *.pem
 *.secret
+
+# Obsidian runtime files (change on every launch, not config)
+vault/.obsidian/workspace.json
+vault/.obsidian/plugins/nexus/data.json
+vault/.nexus/
+vault/.conversations/
+vault/.workspaces-archived/
+desktop.ini
