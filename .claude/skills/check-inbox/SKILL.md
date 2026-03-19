@@ -57,6 +57,7 @@ Save to `vault/_forge/learnings/` as `YYYY-MM-DD-inbox-processing.md` (append if
 
 ```
 ### [HH:MM] Email from [sender]
+**Message ID:** [Gmail message ID -- REQUIRED for dedup]
 **Subject:** [subject]
 **Classification:** [auto-execute | approval | escalate | unclassifiable]
 **Skill matched:** [skill name or "none"]
@@ -80,8 +81,12 @@ List each email and what was done.
 ### Emails Sent
 List reply emails sent with recipient and subject.
 
-## Known Limitations
-- **Mark as read:** The Gmail MCP does not have a "mark as read" tool. Processed emails stay unread in Gmail. To avoid reprocessing, the skill checks the processing log for today and skips emails whose message ID was already logged. Future fix: add Gmail label "processed" via Gmail API or MCP update.
+## Deduplication
+The Gmail MCP does not have a "mark as read" tool. Processed emails stay unread in Gmail. To avoid reprocessing:
+1. Every processed email's Gmail message ID is recorded in the processing log (the `**Message ID:**` field)
+2. Before processing any email, search ALL processing log files (not just today's) for the message ID using Grep
+3. If the message ID is already in any log file, skip it entirely
+4. Future fix: add Gmail label "processed" via Gmail API or MCP update
 
 ## Rules
 - All replies are SENT directly via scripts/send_email.py. No drafts.
