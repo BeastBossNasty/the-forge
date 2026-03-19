@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "A vault write just occurred. If the file is inside vault/ and is not an _INDEX.md, verify it has proper YAML frontmatter per the vault schema in CLAUDE.md: type, client (if client-specific), date, status, source, confidence (if client-specific), importance (if client-specific), tags, related. Fix any missing fields before proceeding."
+          }
+        ]
+      }
+    ]
+  }
+}
