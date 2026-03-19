@@ -171,3 +171,4 @@ Over time, the system builds implicit profiles:
 - Krisp API access (may require account upgrade)
 - Nexus MCP working (for semantic search over transcripts)
 - Obsidian running (for Nexus)
+# review target
