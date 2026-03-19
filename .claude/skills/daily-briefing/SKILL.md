@@ -32,8 +32,9 @@ Morning status update. What happened, what needs attention, what to do today.
 ### Performance Snapshot
 Key metrics vs benchmarks. If live data is unavailable, state exactly what is missing. Do not invent metrics.
 
-### Recent Decisions
+### Recent Decisions & 4D Scores
 What was decided recently and early signals on outcomes. Reference the decision notes.
+**Auto-trigger:** Run the score-decisions skill (`.claude/skills/score-decisions/SKILL.md`) against any active decisions with passed review dates. Append scoring results to decision notes. Surface improved/worsened decisions prominently.
 
 ### Flags
 Anything that needs attention today: anomalies, overdue reviews, approaching deadlines, tickets due soon.

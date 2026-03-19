@@ -32,13 +32,18 @@ Continuous self-improvement loop. Review how The Forge is operating, identify wh
    - Prioritize by impact and feasibility
    - Execute any improvements that can be done now (fix frontmatter, update stale docs, restructure notes)
 
-5. **Propose structural changes:**
+5. **Run ruleset analysis across all clients:**
+   - Auto-trigger the analyze-rulesets skill (`.claude/skills/analyze-rulesets/SKILL.md`) for each client with 10+ scored decisions
+   - Compare rubric thresholds against actual decision outcomes
+   - Propose threshold adjustments to `vault/_forge/improvement-queue/`
+
+6. **Propose structural changes:**
    - If a pattern suggests a new skill is needed, propose it
    - If a skill's classification keywords are too broad or narrow, suggest adjustments
    - If the inbox config needs updating, suggest changes
    - Write proposals to `vault/_forge/improvement-queue/`
 
-6. **Log what was done:**
+7. **Log what was done:**
    - Save a summary to `vault/_forge/learnings/YYYY-MM-DD-self-improvement.md`
 
 ## Output Format

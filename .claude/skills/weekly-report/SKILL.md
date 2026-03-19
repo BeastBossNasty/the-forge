@@ -33,8 +33,9 @@ One sentence summary of account performance this week.
 ### Platform Breakdown
 Metrics, trends, what's working, what's not. Compare against benchmarks.
 
-### Decision Outcomes
+### Decision Outcomes & 4D Scores
 How recent decisions are performing. Reference specific decision notes. Flag any that are ready for review (validated or failed).
+**Auto-trigger:** Run the score-decisions skill (`.claude/skills/score-decisions/SKILL.md`) against all decisions from the past 14 days. Append scoring results to decision notes. Highlight any with confidence > 70% that should be converted to lessons or reverted.
 
 ### Recommendations
 Specific, actionable next steps with reasoning. Reference playbooks and benchmarks.

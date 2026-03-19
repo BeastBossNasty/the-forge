@@ -97,15 +97,49 @@ When a decision outcome becomes clear (validated or failed), flag it in the outp
 
 ---
 
-## MCP Servers
+## MCP Servers & API Access
 
 **Gmail MCP:** Connected to `voltage.the.forge@gmail.com` (Forge dedicated inbox). Used by `/check-inbox` for email intake and task routing.
 
+**Meta Ads API:** Credentials in `.env`. Long-lived token (expires 2026-05-07). Covers all 5 client ad accounts:
+- TruNiagen: act_196113284341625
+- Bella Luna: act_551906995157520
+- Bowling.com: act_1935937429809554
+- GGB: act_646330722224163
+- HABA: act_941543396233578
+
 **Future additions:**
-- Nexus (Claudesidian): when Obsidian is set up -- point it at `vault/`, install the Nexus plugin, update `.mcp.json` to add the Nexus server, and update this file to prefer Nexus MCP tools over raw file reads
+- Nexus (Claudesidian): when Obsidian is set up
 - Google Ads MCP: when API credentials are provisioned
-- Meta Ads MCP: when built or found
 - Browser MCP: when Chrome automation is needed
+
+---
+
+## Rubric Engine & 4D Scoring
+
+Every client has a rubric in `benchmarks/performance-benchmarks.md` defining tier thresholds, hard stops, and scaling constraints. See `vault/_agency/playbooks/rubric-engine.md` for the full playbook.
+
+### 4D Decision Scoring (Automatic)
+Decisions are automatically scored using 4-dimensional signal weighting:
+1. **Temporal decay:** Recent signals weighted more (half-life 15-30 days)
+2. **Contextual lift:** Decisions in similar conditions get boosted (seasonal + state similarity)
+3. **Outcome trust:** Improved decisions boosted 1.2x, worsened penalized 0.7x
+4. **Category success:** High-success categories boosted 1.15x
+
+This runs automatically during `/briefing`, `/weekly-report`, and `/performance-review`. No manual trigger needed. Scoring results are appended to decision notes.
+
+### Ruleset Analysis
+`/analyze-rulesets [client]` compares rubric thresholds against scored decision outcomes and suggests adjustments. Also runs automatically during `/self-improve`.
+
+### Client Quick Reference
+
+| Client | Model | Healthy | Caution | Floor |
+|--------|-------|---------|---------|-------|
+| TruNiagen | LTV Conservative | Adj ROAS >= 1.5x | >= 1.2x | < 1.2x |
+| Bella Luna | Momentum (gradient) | ROAS >= 10x | >= 5x | < 5x |
+| Bowling | CPA-focused | ROAS >= 15x | >= 12x | < 12x |
+| GGB | Standard E-com | ROAS >= 4x | >= 2x | < 2x |
+| HABA | Conservative | ROAS >= 4x | >= 2x | < 2x |
 
 ---
 

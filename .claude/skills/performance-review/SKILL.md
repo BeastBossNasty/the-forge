@@ -26,6 +26,7 @@ Deep dive analysis with campaign-level data.
    - Anomalies to `anomalies/` if any metric is outside acceptable range (check for duplicates first)
    - Weekly snapshot to `snapshots/`
    - Flag decision outcomes for Jake to review
+   - Auto-trigger score-decisions skill (`.claude/skills/score-decisions/SKILL.md`) against all active decisions. Append 4D scores to decision notes.
 
 ## Output Format
 
