@@ -188,9 +188,32 @@ The Forge improves itself continuously. Scheduled daily at 6am on weekdays.
 
 ---
 
+## Team & Advanced Features (Phase 4)
+
+**Commands:**
+- `/generate-report [client]` -- Create a client-facing HTML performance report
+- `/budget-check [client] [project/ticket]` -- Check project budget status before executing
+- `/human-handoff` -- Create a structured handoff when human intervention is needed
+
+### Client-Facing Reports
+Generate standalone HTML reports for sharing with clients. Professional styling, Voltage branding, print-friendly. Saved to `vault/_clients/[client]/reports/`.
+
+### Budget-Aware Execution
+Projects and tickets can have optional budget fields in frontmatter (`budget_hours`, `budget_dollars`, etc.). Before costly operations, check spend against allocation. Green/Yellow/Red status system. Red blocks execution until Jake approves.
+
+### Multi-User Access Control
+Config: `vault/_forge/access-control.md`
+Roles: admin (full access), operator (read-only commands), viewer (reports only).
+Client isolation enforced per user. Currently Jake-only. Adding users requires updating access-control.md and inbox-config.md.
+
+### Human-in-the-Loop Handoff
+When The Forge hits a step requiring human action (platform login, visual review, payment, etc.), it creates a structured handoff ticket, sends Jake an email notification, and pauses. The ticket includes step-by-step instructions and context. `/check-tickets` handles resume after the human step is done.
+
+---
+
 ## Codex Review (Active)
 
-Codex CLI is installed and runs `codex review --uncommitted` as a PreCommit hook. This uses OpenAI's model as a second opinion to catch mistakes before commits.
+Codex CLI is installed and runs `codex review --uncommitted` as a git pre-commit hook. This uses OpenAI's GPT model as a second opinion to catch mistakes before commits.
 
 ---
 
