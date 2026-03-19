@@ -160,6 +160,34 @@ Daily log saved to `vault/_forge/learnings/YYYY-MM-DD-inbox-processing.md`
 
 ---
 
+## Self-Improvement (Phase 3)
+
+The Forge improves itself continuously. Scheduled daily at 6am on weekdays.
+
+**Commands:**
+- `/self-improve` -- Review vault health, identify failure patterns, propose structural changes
+- `/capability-sprint` -- Search for new MCPs, skills, and tools. Security-scan and archive.
+- `/regression-test` -- Run all skills against the sandbox client to catch regressions
+
+**How it works:**
+1. Self-improve: audit vault health, review processing logs, identify patterns, propose fixes
+2. Regression test: run every skill against sandbox, grade results, flag failures
+3. Capability sprint: search for new tools, security-scan (min 10+ GitHub stars, updated within 6 months), test in sandbox, archive approved tools
+
+**Storage:**
+- `vault/_forge/skills-archive/` -- evaluated tools with security scan results
+- `vault/_forge/learnings/` -- processing logs, improvement reports, test results
+- `vault/_forge/capability-log/` -- capability evaluation history
+- `vault/_forge/improvement-queue/` -- proposed changes awaiting review
+
+**Rules:**
+- Never install tools without security scanning first
+- Never modify client data during self-improvement (vault health fixes are limited to frontmatter and indexes)
+- Proposals for structural changes go to improvement-queue, not directly implemented
+- Always clean up test data after regression tests
+
+---
+
 ## Codex Review (Active)
 
 Codex CLI is installed and runs `codex review --uncommitted` as a PreCommit hook. This uses OpenAI's model as a second opinion to catch mistakes before commits.
