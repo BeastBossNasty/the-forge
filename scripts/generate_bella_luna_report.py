@@ -263,7 +263,7 @@ def build_pdf():
         "Prior to Voltage's engagement, Bella Luna's Meta Ads account was running 70+ fragmented campaigns "
         "with inconsistent structure and no unified strategy. While the product resonated with audiences "
         "(ROAS occasionally spiked above 15x), performance was volatile. The account hit its lowest point in "
-        "September-October 2024 at 6-8x ROAS with CPAs above $20. Monthly revenue averaged $28,895 with "
+        "September-October 2024 at 6-8x ROAS with CPAs above $20. Monthly revenue averaged $30,968 with "
         "no clear scaling path.", body))
 
     story.append(Paragraph("After Voltage (June 2025 through Present)", h2))
@@ -274,8 +274,8 @@ def build_pdf():
         "adjustments tied to ROAS performance. Third, disciplined creative rotation with UGC-style content "
         "replaced ad hoc creative decisions.", body))
     story.append(Paragraph(
-        "The results speak for themselves. Average monthly revenue increased from $28,895 to $76,920 "
-        "while blended ROAS improved from 10.6x to 15.2x. February 2026 produced the best single month "
+        "The results speak for themselves. Average monthly revenue increased from $30,968 to $76,922 "
+        "while blended ROAS improved from 11.0x to 15.0x. February 2026 produced the best single month "
         "in account history: $218,815 in revenue at 21.76x ROAS on just $10,055 in spend.", body))
 
     # Current state callout
